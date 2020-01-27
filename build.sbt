@@ -4,6 +4,8 @@ version := "0.1"
 
 scalaVersion := "2.13.1"
 
+assemblyOutputPath in assembly := file(s"assembly/${name.value}-${version.value}.jar")
+
 //logging
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
