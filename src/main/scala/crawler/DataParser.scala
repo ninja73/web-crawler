@@ -25,11 +25,11 @@ trait HtmlParser extends DataParser[Html] {
     val data = doc.head().getElementsByTag("meta")
       .asScala
       .foldLeft(MetaData(title = title)) {
-        case (acc, el) if el.attr("name").toLowerCase == "description" ⇒
+        case (acc, el) if el.attr("name").toLowerCase == "description" =>
           acc.copy(description = Option(el.attr("content")))
-        case (acc, el) if el.attr("name").toLowerCase == "keywords" ⇒
+        case (acc, el) if el.attr("name").toLowerCase == "keywords" =>
           acc.copy(keywords = Option(el.attr("content")))
-        case (acc, _) ⇒ acc
+        case (acc, _) => acc
       }
     Option(data)
   }

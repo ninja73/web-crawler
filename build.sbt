@@ -4,6 +4,8 @@ version := "0.1"
 
 scalaVersion := "2.13.1"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation")
+
 assemblyOutputPath in assembly := file(s"assembly/${name.value}-${version.value}.jar")
 
 //logging

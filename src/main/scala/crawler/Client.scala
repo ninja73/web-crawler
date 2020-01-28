@@ -10,13 +10,13 @@ import scala.util.control.NonFatal
 
 object Client {
   def loadPartData(url: String)(implicit logger: Logger): Option[String] = {
-    Using.Manager { use ⇒
+    Using.Manager { use =>
       val timeout = (400 millisecond).toMillis.toInt
       val response = use(Jsoup.connect(s"http://$url").timeout(timeout).execute().bodyStream())
-      val content = use(io.Source.fromInputStream(response)).take(40960 / 8)
+      val content = use(io.Source.fromInputStream(response)).take(5120)
       Option(content.mkString)
     }.recover {
-      case NonFatal(e) ⇒
+      case NonFatal(e) =>
         logger.error(e.getMessage)
         None
     }.toOption.flatten

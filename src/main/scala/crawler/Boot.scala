@@ -16,18 +16,18 @@ object Boot extends App {
   implicit val logger: Logger = Logger("web-crawler")
 
   parser.parse(args, Config()) match {
-    case Some(Config(inFile, outFile)) ⇒
-      Using(resultWriter(outFile)) { writer ⇒
+    case Some(Config(inFile, outFile)) =>
+      Using(resultWriter(outFile)) { writer =>
         val consumer = ConsumerOps.consumer(writer)
 
         val observable = Observable.fromLinesReader(Task(urlsReader(inFile)))
-          .mapParallelUnordered(cores)(url ⇒ Task(loadPartData(url)))
-          .collect { case Some(partData) ⇒ Html(partData).parse }
+          .mapParallelUnordered(cores)(url => Task(loadPartData(url)))
+          .collect { case Some(partData) => Html(partData).parse }
 
         val task = observable.consumeWith(consumer)
         Await.ready(task.runToFuture, Duration.Inf)
       }
-    case None ⇒
+    case None =>
       logger.info("Parse args failed")
   }
 }
